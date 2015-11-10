@@ -195,8 +195,11 @@ class Analysis(object):
 
             self._func(local_data)
 
-            if not do_not_cache:
-                self._cache.set(local_data)
+            if do_not_cache and _parent_cache:
+                self._cache = _parent_cache
+
+            self._cache.set(local_data)
+
         else:
             print('Deferring to cache: %s' % self._name)
 
