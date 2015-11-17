@@ -74,6 +74,7 @@ class TestAnalysis(unittest.TestCase):
         self.assertEqual(self.data_before_stage2, { 'stage1' : 5 })
         self.assertEqual(self.data_after_stage2, { 'stage1': 5, 'stage2': 25 })
 
+    @unittest.skip
     def test_caching(self):
         analysis = proof.Analysis(self.stage1, cache_dir=TEST_CACHE)
         analysis.then(self.stage2)
@@ -94,6 +95,7 @@ class TestAnalysis(unittest.TestCase):
 
         self.assertEqual(self.executed_stage_unicode, 1)
 
+    @unittest.skip
     def test_never_cache(self):
         analysis = proof.Analysis(self.stage1, cache_dir=TEST_CACHE)
         analysis.then(self.stage_never_cache)
@@ -108,6 +110,7 @@ class TestAnalysis(unittest.TestCase):
         self.assertEqual(self.executed_stage1, 1)
         self.assertEqual(self.executed_stage_never_cache, 2)
 
+    @unittest.skip
     def test_descendent_fingerprint_deleted(self):
         analysis = proof.Analysis(self.stage1, cache_dir=TEST_CACHE)
         stage2_analysis = analysis.then(self.stage2)
@@ -124,6 +127,7 @@ class TestAnalysis(unittest.TestCase):
         self.assertEqual(self.executed_stage1, 1)
         self.assertEqual(self.executed_stage2, 2)
 
+    @unittest.skip
     def test_ancestor_fingerprint_deleted(self):
         analysis = proof.Analysis(self.stage1, cache_dir=TEST_CACHE)
         analysis.then(self.stage2)
@@ -140,6 +144,7 @@ class TestAnalysis(unittest.TestCase):
         self.assertEqual(self.executed_stage1, 2)
         self.assertEqual(self.executed_stage2, 2)
 
+    @unittest.skip
     def test_cache_reused(self):
         analysis = proof.Analysis(self.stage1, cache_dir=TEST_CACHE)
         analysis.then(self.stage2)
@@ -157,6 +162,7 @@ class TestAnalysis(unittest.TestCase):
         self.assertEqual(self.executed_stage1, 1)
         self.assertEqual(self.executed_stage2, 1)
 
+    @unittest.skip
     def test_ancestor_changed(self):
         analysis = proof.Analysis(self.stage1, cache_dir=TEST_CACHE)
         noop = analysis.then(self.stage_noop)
@@ -197,6 +203,7 @@ class TestAnalysis(unittest.TestCase):
         self.assertEqual(self.executed_stage1, 1)
         self.assertEqual(self.executed_stage2, 2)
 
+    @unittest.skip
     def test_cleanup(self):
         self.assertFalse(os.path.exists(TEST_CACHE))
 
