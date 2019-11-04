@@ -18,6 +18,7 @@ from glob import glob
 import hashlib
 import inspect
 import os
+from logging import getLogger
 
 try:
     import cPickle as pickle
@@ -25,6 +26,9 @@ except ImportError:  # pragma: no cover
     import pickle
 
 import six
+
+
+logger = getLogger(__name__)
 
 
 class Cache(object):
@@ -189,15 +193,15 @@ class Analysis(object):
         do_not_cache = getattr(self._func, 'never_cache', False)
 
         if refresh is True:
-            print('Refreshing: %s' % self._name)
+            logger.debug('Refreshing: %s' % self._name)
         elif do_not_cache:
             refresh = True
 
-            print('Never cached: %s' % self._name)
+            logger.debug('Never cached: %s' % self._name)
         elif not self._cache.check():
             refresh = True
 
-            print('Stale cache: %s' % self._name)
+            logger.debug('Stale cache: %s' % self._name)
 
         if refresh:
             if _parent_cache:
@@ -213,7 +217,7 @@ class Analysis(object):
             self._cache.set(local_data)
 
         else:
-            print('Deferring to cache: %s' % self._name)
+            logger.debug('Deferring to cache: %s' % self._name)
 
         for analysis in self._child_analyses:
             analysis.run(refresh=refresh, _parent_cache=self._cache)
