@@ -50,11 +50,13 @@ class Cache(object):
         Get cached data from memory or disk.
         """
         if self._data is None:
-            f = bz2.BZ2File(self._cache_path)
-            self._data = pickle.loads(f.read())
-            f.close()
+            # f = bz2.BZ2File(self._cache_path)
+            # self._data = pickle.loads(f.read())
+            # f.close()
+            self._data = {}
 
-        return deepcopy(self._data)
+        # return deepcopy(self._data)
+        return self._data
 
     def set(self, data):
         """
@@ -62,9 +64,9 @@ class Cache(object):
         """
         self._data = data
 
-        f = bz2.BZ2File(self._cache_path, 'w')
-        f.write(pickle.dumps(self._data))
-        f.close()
+        # f = bz2.BZ2File(self._cache_path, 'w')
+        # f.write(pickle.dumps(self._data))
+        # f.close()
 
 
 def never_cache(func):
@@ -209,8 +211,11 @@ class Analysis(object):
 
             self._func(local_data)
 
-            if not do_not_cache:
-                self._cache.set(local_data)
+            if do_not_cache and _parent_cache:
+                self._cache = _parent_cache
+
+            self._cache.set(local_data)
+
         else:
             logger.debug('Deferring to cache: %s' % self._name)
 
